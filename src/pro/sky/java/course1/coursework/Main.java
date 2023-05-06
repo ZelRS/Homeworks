@@ -1,112 +1,65 @@
 package pro.sky.java.course1.coursework;
 
 public class Main {
-    private static final Employee[] employees = new Employee[10];
-
-    private static void registerOfEmployees() {
-        employees[0] = new Employee(1, "Груздев Пётр Евгеньевич", 104_777);
-        employees[1] = new Employee(1, "Пивоваров Иван Дмитриевич", 108_753);
-        employees[2] = new Employee(2, "Ким Виктор Петрович", 103_123);
-        employees[3] = new Employee(2, "Краснов Степан Иванович", 110_916);
-        employees[4] = new Employee(3, "Прокофьев Алексеей Алекссевич", 111_556);
-        employees[5] = new Employee(3, "Суздальцев Константин Захарович", 100_761);
-        employees[6] = new Employee(4, "Харитонов Денис Павлович", 106_943);
-        employees[7] = new Employee(4, "Перевязенцев Михаил Романович", 101_887);
-        employees[8] = new Employee(5, "Матвеев Вадим Михайлович", 100_901);
-        employees[9] = new Employee(5, "Бук Андрей Денисович", 111_116);
-    }
-
     public static void main(String[] args) {
-        registerOfEmployees();
 
-        employees[1].setSalary(102_420);
-        employees[4].setNumOfDepartment(5);
+        EmployeeBook employeeBook = new EmployeeBook();
 
+//      Добавление сотрудников и удаление
+        employeeBook.createEmployee(1, "Груздев Пётр Евгеньевич", 104_777);
+        employeeBook.createEmployee(1, "Пивоваров Иван Дмитриевич", 108_753);
+        employeeBook.createEmployee(2, "Ким Виктор Петрович", 103_123);
+        employeeBook.createEmployee(2, "Краснов Степан Иванович", 110_916);
+        employeeBook.createEmployee(3, "Прокофьев Алексеей Алекссевич", 111_556);
+        employeeBook.createEmployee(3, "Суздальцев Константин Захарович", 100_761);
+        employeeBook.createEmployee(4, "Харитонов Денис Павлович", 106_943);
+        employeeBook.createEmployee(4, "Перевязенцев Михаил Романович", 101_887);
+        employeeBook.createEmployee(5, "Матвеев Вадим Михайлович", 100_901);
+        employeeBook.createEmployee(5, "Бук Андрей Денисович", 111_116);
+        employeeBook.removeEmployee(5);
+        employeeBook.createEmployee(5, "Исмаилов Степан Харитонович", 103_457);
+//      Изменение номера отдела выбранного сотрудника
+        employeeBook.changeNumOfDepOfEmployee("Бук Андрей Денисович", 3);
+//      Изменение зарплаты выбранного сотрудника
+        employeeBook.changeSalaryOfEmployee("Бук Андрей Денисович", 111_115);
+//      Список сотрудников по отделам
+        employeeBook.printEmployeesByDep();
         separator();
-        System.out.println("СПИСОК ВСЕХ СОТРУДНИКОВ КОМПАНИИ: ");
+//      Список всех сотрудников без учета отдела
+        System.out.println("СПИСОК ВСЕХ СОТРУДНИКОВ КОМПАНИИ:");
+        employeeBook.getListOfEmployees();
         separator();
-        getListOfEmployees();
-
-
+//      Список полной информации по всем сотрудникам с учетом общей индексации и индексации внутри отдела
+        System.out.println("ИНФОРМАЦИЯ ПО ВСЕМ СОТРУДНИКАМ КОМПАНИИ:");
+        employeeBook.indexSalary(5);
+        employeeBook.indexSalaryOfDep(7, 5);
+        employeeBook.printAllInformationOfEmployees();
         separator();
-        System.out.println("ПОЛНАЯ ИНФОРМАЦИЯ ПО ВСЕМ СОТРУДНИКАМ КОМПАНИИ:");
+//      Общая сумма и средняя сумма всех зарплат, минимальная и максимальнная зарплата среди всех сотрудников
+        System.out.println("СТАТИСТИКА ПО ВСЕМ СТОРУДНИКАМ КОМПАНИИ:");
+        employeeBook.calculateSum();
+        employeeBook.findMaxSalary();
+        employeeBook.findMinSalary();
         separator();
-        indexSalary(10);
-        printAllInformationOfEmployees();
-
         separator();
-        System.out.println("СТАТИСТИКА КОМПАНИИ");
+//      Список полной информации среди сотрудников выбранного отдела
+        employeeBook.printListOfEmployeesOfDep(5);
         separator();
-
-        calculateSum();
-        findMaxSalary();
-        findMinSum();
-        System.out.println();
+//      Общая сумма и средняя сумма всех зарплат, минимальная и максимальнная зарплата среди сотрудников выбранного отдела
+        System.out.println("СТАТИСТИКА ПО ОТДЕЛАМ:");
+        employeeBook.calculateSumOfDep(5);
+        employeeBook.findMinSalaryOfDep(5);
+        employeeBook.findMaxSalaryOfDep(5);
+        separator();
+//      Сотрудники с зарплатой меньше указанной суммы
+        employeeBook.findEmployeesWithSalaryLess(110_000);
+        separator();
+//      Сотрудники с зарплатой больше указанной суммы
+        employeeBook.findEmployeesWithSalaryMore(110_000);
         separator();
     }
 
-    public static void printAllInformationOfEmployees() {
-        for (Employee employee : employees) {
-            System.out.println(employee);
-        }
-    }
-
-    public static void indexSalary(int percentIndexation) {
-        if (percentIndexation < 0) {
-            throw new IllegalArgumentException("Нельзя индексировать зарплату отрицательным числом!");
-        }
-        if (percentIndexation > 0) {
-            System.out.println("(зарплата проиндексирована на " + percentIndexation + " процентов)");
-            float index = percentIndexation / 100f;
-            for (Employee employee : employees) {
-                int newSalary = employee.getSalary();
-                newSalary = (int) (newSalary + (newSalary * index));
-                employee.setSalary(newSalary);
-            }
-        }
-    }
-
-    public static void calculateSum() {
-        int sum = 0;
-        int midSum;
-        for (Employee employee : employees) {
-            sum += employee.getSalary();
-        }
-        midSum = sum / employees.length;
-        System.out.println("Сумма зарплат в компании: " + sum + " руб.\nСредняя сумма зарплат в компании: " + midSum + " руб.");
-    }
-
-    public static void findMaxSalary() {
-        int maxSalary = 0;
-        String name = "";
-        for (Employee employee : employees) {
-            if (maxSalary < employee.getSalary()) {
-                maxSalary = employee.getSalary();
-                name = employee.getName();
-            }
-        }
-        System.out.println("Максимальная зарплата в компании у сотрудника по имени " + name);
-    }
-
-    public static void findMinSum() {
-        int minSalary = 1_000_000;
-        String name = "";
-        for (Employee employee : employees) {
-            if (minSalary > employee.getSalary()) {
-                minSalary = employee.getSalary();
-                name = employee.getName();
-            }
-        }
-        System.out.println("Минимальная зарплата в компании у сотрудника по имени " + name);
-    }
-
-    public static void getListOfEmployees() {
-        for (Employee employee : employees) {
-            System.out.println(employee.getId() + ". " + employee.getName());
-        }
-    }
-
-    public static void separator() {
-        System.out.println("==========================================================");
+    private static void separator() {
+        System.out.println("=========================================================================================");
     }
 }

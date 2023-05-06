@@ -1,14 +1,14 @@
 package pro.sky.java.course1.coursework;
 
 public class Employee {
-    private static int count;
+    private static int count = 1;
     private final int id;
     private int numOfDepartment;
     private final String name;
     private int salary;
 
     public Employee(int numOfDepartment, String name, int salary) {
-        this.id = ++count;
+        this.id = count++;
         this.numOfDepartment = numOfDepartment;
         this.name = name;
         this.salary = salary;
@@ -16,11 +16,11 @@ public class Employee {
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public int getNumOfDepartment() {
-        return this.numOfDepartment;
+        return numOfDepartment;
     }
 
     public void setNumOfDepartment(int numOfDepartment) {
@@ -31,11 +31,11 @@ public class Employee {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public int getSalary() {
-        return this.salary;
+        return salary;
     }
 
     public void setSalary(int salary) {
@@ -44,6 +44,6 @@ public class Employee {
 
     @Override
     public String toString() {
-        return this.id + ". (" + this.numOfDepartment + " отдел) " + this.name + " | Зарплата: " + this.salary + " руб.";
+        return id + ". (" + numOfDepartment + " отдел) " + name + " | Зарплата: " + salary + " руб.";
     }
 }
