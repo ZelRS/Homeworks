@@ -13,10 +13,10 @@ public class Main {
 
         VehicleService station = new ServiceStation();
 
-        station.check(car);
-        station.check(car2);
         station.check(bicycle);
         station.check(bicycle2);
+        station.check(car);
+        station.check(car2);
         station.check(truck);
         station.check(truck2);
     }
